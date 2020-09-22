@@ -1,0 +1,63 @@
+module.exports = [{
+    name: 'Metal Mine',
+    maxLevel: 10000,
+    code: 'metalmine',
+    cost: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        A: 25,
+        D: 1.4,
+        C: 0.3,
+    },{
+        resourceCode: 'building',
+        formulaId: 1,
+        A: 35000,
+        D: 1.4,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 45,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: false,
+        A: -7,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: false,
+        A: -5,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'electricity',
+        formulaId: 1,
+        isPercentage: false,
+        A: -13,
+        C: 1,
+        D: 1.1,
+    }],
+    reserved: [{
+        resourceCode: 'population',
+        formulaId: 1,
+        isPercentage: false,
+        A: 23,
+        D: 1.1,
+        C: 1,
+    }],
+    capacity: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 350,
+        D: 1.1,
+        C: 1,
+    }]
+}]

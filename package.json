@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dot-env": "^0.0.1",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.10.5",
+    "path": "^0.12.7",
+    "uuidv4": "^6.2.3"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "_moduleAliases": {
+    "@root": "src/",
+    "@database": "src/database",
+    "@modules": "src/modules",
+    "@helpers": "src/helpers"
+  }
+}

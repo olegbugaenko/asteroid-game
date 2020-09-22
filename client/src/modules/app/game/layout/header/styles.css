@@ -1,0 +1,26 @@
+.columns.resources {
+    margin-left: 20px;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.columns.resources .column {
+    padding: 5px 10px;
+}
+
+.resources .resource-item {
+    width: 200px;
+    display: flex;
+    align-items: center;
+}
+
+.resources .resource-item label{
+    width: 80px;
+    display: inline-block;
+}
+
+.icon-resource {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}

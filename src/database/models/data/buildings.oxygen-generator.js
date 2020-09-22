@@ -1,0 +1,56 @@
+module.exports = [{
+    name: 'Hydroponics plantations',
+    maxLevel: 10000,
+    code: 'oxygengenerator',
+    cost: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        A: 25,
+        D: 1.4,
+        C: 0.3,
+    },{
+        resourceCode: 'building',
+        formulaId: 1,
+        A: 35000,
+        D: 1.4,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: false,
+        A: 45,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: false,
+        A: -10,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'electricity',
+        formulaId: 1,
+        isPercentage: false,
+        A: -4,
+        C: 1,
+        D: 1.1,
+    }],
+    reserved: [{
+        resourceCode: 'population',
+        formulaId: 1,
+        isPercentage: false,
+        A: 15,
+        D: 1.1,
+        C: 1,
+    }],
+    capacity: [{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: false,
+        A: 350,
+        D: 1.1,
+        C: 1,
+    }]
+}]

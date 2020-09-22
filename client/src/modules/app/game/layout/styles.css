@@ -1,0 +1,64 @@
+.gameBody {
+    background-color: #232354;
+    height: 100vh;
+    height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    min-height: 50px;
+    background-color: #030314;
+    color: #fff;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.body {
+    display: flex;
+    flex: 1;
+    flex-wrap: nowrap;
+    overflow-wrap: break-word;
+}
+
+.navBar {
+    background-color: #030314;
+    width: 180px;
+    padding: 10px 0;
+    margin-top: 10px;
+}
+
+.navBar ul {
+    margin: 0;
+    padding: 0;
+}
+
+.navBar ul li {
+    list-style: none;
+    color: white;
+    padding: 10px;
+}
+
+.navBar ul li a {
+    color: white;
+    display: block;
+    padding: 5px 10px;
+    background-color: #131334;
+    text-align: center;
+    text-decoration: none;
+}
+
+.navBar ul li a:hover {
+    background-color: #232344;
+}
+
+.mainGameBody {
+    flex: 1;
+}
+
+.body .mainGameBody .paper {
+    padding: 10px;
+    margin: 10px;
+    background-color: #030314;
+    color: white;
+}

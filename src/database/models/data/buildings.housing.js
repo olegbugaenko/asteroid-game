@@ -1,0 +1,55 @@
+module.exports = [{
+    name: 'Housing',
+    maxLevel: 10000,
+    code: 'housing',
+    cost: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        A: 45,
+        D: 1.4,
+        C: 1,
+    },{
+        resourceCode: 'building',
+        formulaId: 1,
+        A: 45000,
+        D: 1.4,
+        C: 1,
+    }],
+    production: [{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: false,
+        A: -15,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: false,
+        A: -15,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'electricity',
+        formulaId: 1,
+        isPercentage: false,
+        A: -5,
+        C: 1,
+        D: 1.1,
+    },{
+        resourceCode: 'population',
+        formulaId: 1,
+        isPercentage: false,
+        A: 45,
+        D: 1.1,
+        C: 1,
+    }],
+    capacity: [{
+        resourceCode: 'population',
+        formulaId: 1,
+        isPercentage: false,
+        A: 450,
+        D: 1.13,
+        C: 1,
+    }]
+}]

@@ -1,0 +1,63 @@
+module.exports = [{
+    name: 'Water extractor',
+    maxLevel: 100000,
+    code: 'watergenerator',
+    cost: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        A: 25,
+        D: 1.4,
+        C: 0.3,
+    },{
+        resourceCode: 'building',
+        formulaId: 1,
+        A: 40000,
+        D: 1.4,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: false,
+        A: 45,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: false,
+        A: -10,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'population',
+        formulaId: 1,
+        isPercentage: false,
+        A: 3,
+        D: 1.1,
+        C: 1,
+    },{
+        resourceCode: 'electricity',
+        formulaId: 1,
+        isPercentage: false,
+        A: -7,
+        C: 1,
+        D: 1.1,
+    }],
+    reserved: [{
+        resourceCode: 'population',
+        formulaId: 1,
+        isPercentage: false,
+        A: 15,
+        D: 1.1,
+        C: 1,
+    }],
+    capacity: [{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: false,
+        A: 350,
+        D: 1.1,
+        C: 1,
+    }]
+}]
