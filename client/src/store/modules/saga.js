@@ -2,6 +2,7 @@ import { all, call } from 'redux-saga/effects';
 import { UserSaga } from './user/saga';
 import { ColonySaga } from './colony/saga';
 import { BuildingsSaga } from './buildings/saga';
+import { QuestsSaga } from "./quests/saga";
 
 class RootSaga {
 
@@ -11,7 +12,8 @@ class RootSaga {
             call(ColonySaga.watch),
             call(ColonySaga.background),
             call(BuildingsSaga.watch),
-            call(BuildingsSaga.background)
+            call(BuildingsSaga.background),
+            call(QuestsSaga.watch)
         ]);
     }
 

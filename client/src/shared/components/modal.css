@@ -1,0 +1,33 @@
+.modal-holder {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-holder.is-opened {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-holder .modal {
+    max-height: 500px;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #030314;
+    color: #ffffff;
+}
+
+.modal .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal .footer {
+    display: flex;
+    justify-content: space-between;
+}

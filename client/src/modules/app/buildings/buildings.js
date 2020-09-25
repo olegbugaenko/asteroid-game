@@ -17,7 +17,7 @@ const Buildings = ({buildings, queue, getBuildingsList, getBuildingQueue, postTo
     return (<React.Fragment>
         <div className={'paper'}>
             <div className={'queueItemsWrap'}>
-                {queue.length <= 0 ? (<p>No items in queue</p>) : (
+                {!queue || queue.length <= 0 ? (<p>No items in queue</p>) : (
                     queue.map(item => (<div className={'queue-row columns'}>
                         <p>{item.name}({item.level})</p>
                         <div className={'bar'}>
@@ -28,7 +28,7 @@ const Buildings = ({buildings, queue, getBuildingsList, getBuildingQueue, postTo
             </div>
         </div>
         <div className={'paper'}>
-            {buildings.filter(b => b.level > 0 || b.isUpgradeAvailable).map(building => (<div className={classNames('buildingCard','columns')}>
+            {buildings && buildings.filter(b => b.level > 0 || b.isUpgradeAvailable).map(building => (<div className={classNames('buildingCard','columns')}>
                 <div className={classNames('column', 'name-col')}>
                     <p>{building.name} ({building.level})</p>
                     <div className={'img-container'}>
@@ -41,9 +41,9 @@ const Buildings = ({buildings, queue, getBuildingsList, getBuildingQueue, postTo
                 </div>
                 <div className={classNames('column', 'costs')}>
                     <p className={'title'}>Costs</p>
-                    {building.cost.filter(c => c.amount > 0 && c.isPrimary)
+                    {building.cost && building.cost.filter(c => c.amount > 0 && c.isPrimary)
                         .map(c => (<p className={'resourceCost'}><SvgLoader scope={'resources'} icon={c.resourceCode} className={'icon-resource'}/> {Math.round(c.amount)}</p> ))}
-                    {building.reserved.filter(c => Math.round(c.amount) !== 0 && c.isPrimary)
+                    {building.reserved && building.reserved.filter(c => Math.round(c.amount) !== 0 && c.isPrimary)
                         .map(c => (<p className={'resourceCost'}><SvgLoader scope={'resources'} icon={c.resourceCode} className={'icon-resource'}/> {Math.round(c.amount)}</p> ))}
                     <p className={'resourceCost'}>{
                         (moment.utc(building.time).diff(moment.utc(0), 'days') ?
@@ -53,7 +53,7 @@ const Buildings = ({buildings, queue, getBuildingsList, getBuildingQueue, postTo
                 </div>
                 <div className={classNames('column', 'costs')}>
                     <p className={'title'}>Production</p>
-                    {building.production.filter(c => Math.round(c.amount) !== 0 && c.isPrimary)
+                    {building.production && building.production.filter(c => Math.round(c.amount) !== 0 && c.isPrimary)
                         .map(c => (<p className={'resourceCost'}><SvgLoader scope={'resources'} icon={c.resourceCode} className={'icon-resource'}/> {Math.round(c.amount)}</p> ))}
                 </div>
             </div> ))}

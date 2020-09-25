@@ -19,7 +19,7 @@ const ResearchStatus = mongoose.Schema({
 const QuestStatus = mongoose.Schema({
     questCode: String,
     status: Number,
-    isHidden: Boolean,
+    isHidden: { type: Boolean, default: false },
 });
 
 const ColonyStatus = mongoose.Schema({

@@ -9,6 +9,7 @@ class ApiService {
             const res = await axios({
                 url,
                 method,
+                data: options && options.data,
                 headers: {
                     ...((options && options.headers) || {}),
                     token

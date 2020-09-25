@@ -172,11 +172,21 @@ class ColonyStatusService {
 
         const newQuestsStatuses = await QuestsService.tickNextQuest(statusNew.status);
 
+        if(newQuestsStatuses.bounty && newQuestsStatuses.bounty.length) {
+            const newAmount = await CalculationResourcesService.modifyResources(statusNew.status.resourcesAfter, newQuestsStatuses.bounty);
+            statusNew.status.resources = newAmount;
+            statusNew = await ColonyStatusService.getCalculatedStatus({ colony: statusNew, time: new Date(timeTick) });
+        }
+
         if(!isTest && new Date(timeTick) < new Date()) {
             const updated = await db().model('Colony').findOneAndUpdate({
                 code: colonyCode,
             },{
-                status: {...statusNew.status, resources: statusNew.status.resourcesAfter, quests: newQuestsStatuses},
+                status: {...statusNew.status, resources: statusNew.status.resourcesAfter, quests: newQuestsStatuses.quests.map(item => ({
+                        questCode: item.questCode,
+                        status: item.status,
+                        isHidden: item.isHidden,
+                    }))},
             });
             for(let updated of queueItemsUpdate) {
                 const updatedData = await db().model('ColonyQueue').findOneAndUpdate({
@@ -187,7 +197,8 @@ class ColonyStatusService {
         return {
             name: colony.name,
             statusNew,
-            queueItemsUpdate
+            queueItemsUpdate,
+            quests: newQuestsStatuses,
         }
     }
 

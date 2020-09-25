@@ -8,6 +8,7 @@ import {
 import * as styles from './styles.css';
 import Header from "./header";
 import Buildings from "./../../buildings"
+import Quests from "../../quests";
 
 const Layout = ({getColonyStatus}) => {
 
@@ -47,6 +48,7 @@ const Layout = ({getColonyStatus}) => {
                             </Switch>
                         </div>
                     </div>
+                    <Quests/>
                 </Router>
             </div>
         </div>

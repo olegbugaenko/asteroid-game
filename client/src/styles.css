@@ -24,3 +24,25 @@ body * {
     border: 1px solid #3f3f5f;
     border-radius: 5px;
 }
+
+.success-btn {
+    background-color: #0e86ca;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #0e86ca;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.fail-btn {
+    background-color: #9e261a;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #8e261a;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 15px;
+}
