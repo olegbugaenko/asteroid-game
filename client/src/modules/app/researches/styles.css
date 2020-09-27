@@ -1,0 +1,36 @@
+.buildingImage {
+    height: 100px;
+    object-fit: contain;
+    max-width: 100px;
+    border: 1px solid #222;
+}
+.name-col {
+    width: 120px;
+}
+
+.queue-row {
+    align-items: center;
+}
+
+.queue-row .bar{
+    flex: 1;
+    margin: 5px 10px;
+    height: 4px;
+    background-color: #333;
+}
+
+.queue-row .bar .progress {
+    height: 4px;
+    background-color: white;
+}
+
+.resourceCost {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.resourceCost img {
+    width: 12px;
+    height: 12px;
+}

@@ -1,6 +1,7 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { QuestsService } from './../../../services/quests.service';
 import * as Actions from './actions';
+import * as ColonyActions from './../colony/actions';
 
 class QuestsSaga {
 
@@ -21,6 +22,7 @@ class QuestsSaga {
             const { data } = yield call(QuestsService.claimReward);
             console.log('pl', payload);
             yield put(Actions.updateQuestStatus({status: 4}));
+            yield put(ColonyActions.getColonyStatus());
         } catch (e) {
             console.error(e);
         }

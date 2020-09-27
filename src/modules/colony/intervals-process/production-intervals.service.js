@@ -6,6 +6,10 @@ const {
     CalculationBuildingService
 } = require('@helpers/calculation/building');
 
+const {
+    CalculationResearchesService
+} = require('@helpers/calculation/research');
+
 class ProductionIntervalsService {
 
     static async processIntervals(intervals) {
@@ -22,7 +26,7 @@ class ProductionIntervalsService {
         const productions = await CalculationResourcesService.fillEmptyAmounts();
         const consumptions = await CalculationResourcesService.fillEmptyAmounts();
         const income = await CalculationResourcesService.fillEmptyAmounts();
-        const bonuses = await CalculationResourcesService.fillEmptyBonuses();
+        const bonusesTotal = await CalculationResourcesService.fillEmptyBonuses();
 
         for(let building of status.buildings) {
             const {
@@ -48,9 +52,41 @@ class ProductionIntervalsService {
             }
             for(let res of bonuses) {
                 if(res.amount > 0) {
-                    const i = bonuses.findIndex(item => item.resourceCode === res.resourceCode);
+                    const i = bonusesTotal.findIndex(item => item.resourceCode === res.resourceCode);
                     if(i > -1) {
-                        bonuses[i].amount *= res.amount;
+                        bonusesTotal[i].amount *= res.amount;
+                    }
+                }
+            }
+        }
+
+        for(let research of status.researches) {
+            const {
+                base,
+                bonuses
+            } = await CalculationResearchesService.getProductions(research.researchCode, research.level, 1);
+            //console.log('bD: ', building);
+            for(let res of base) {
+                if(res.amount > 0) {
+                    const i = productions.findIndex(item => item.resourceCode === res.resourceCode);
+                    if(i > -1) {
+                        productions[i].amount += res.amount;
+                    }
+                }
+
+                if(res.amount < 0) {
+                    const i = consumptions.findIndex(item => item.resourceCode === res.resourceCode);
+                    if(i > -1) {
+                        consumptions[i].amount += res.amount;
+                    }
+                }
+                //here should be some logic to store consumers
+            }
+            for(let res of bonuses) {
+                if(res.amount > 0) {
+                    const i = bonusesTotal.findIndex(item => item.resourceCode === res.resourceCode);
+                    if(i > -1) {
+                        bonusesTotal[i].amount *= res.amount;
                     }
                 }
             }
@@ -60,15 +96,15 @@ class ProductionIntervalsService {
             income: income.map(inc => ({
                 ...inc,
                 amount: productions.find(p => p.resourceCode === inc.resourceCode).amount
-                    * bonuses.find(p => p.resourceCode === inc.resourceCode).amount
+                    * bonusesTotal.find(p => p.resourceCode === inc.resourceCode).amount
                     + consumptions.find(p => p.resourceCode === inc.resourceCode).amount
             })),
             productions: productions.map(prod => ({
                 ...prod,
-                amount: prod.amount * bonuses.find(p => p.resourceCode === prod.resourceCode).amount
+                amount: prod.amount * bonusesTotal.find(p => p.resourceCode === prod.resourceCode).amount
             })),
             consumptions,
-            bonuses,
+            bonuses: bonusesTotal,
         }
 
     }
@@ -76,7 +112,7 @@ class ProductionIntervalsService {
     static async getResourcesCaps(status) {
         const caps = await CalculationResourcesService.fillEmptyAmounts();
         const income = await CalculationResourcesService.fillEmptyAmounts();
-        const bonuses = await CalculationResourcesService.fillEmptyBonuses();
+        const bonusesTotal = await CalculationResourcesService.fillEmptyBonuses();
 
         for(let building of status.buildings) {
             const {
@@ -93,9 +129,33 @@ class ProductionIntervalsService {
             }
             for(let res of bonuses) {
                 if(res.amount > 0) {
-                    const i = bonuses.findIndex(item => item.resourceCode === res.resourceCode);
+                    const i = bonusesTotal.findIndex(item => item.resourceCode === res.resourceCode);
                     if(i > -1) {
-                        bonuses[i].amount *= res.amount;
+                        bonusesTotal[i].amount *= res.amount;
+                    }
+                }
+            }
+        }
+
+        for(let research of status.researches) {
+            const {
+                base,
+                bonuses
+            } = await CalculationResearchesService.getProductions(research.researchCode, research.level, 1);
+            //console.log('bD: ', building);
+            for(let res of base) {
+                if(res.amount > 0) {
+                    const i = caps.findIndex(item => item.resourceCode === res.resourceCode);
+                    if(i > -1) {
+                        caps[i].amount += res.amount;
+                    }
+                }
+            }
+            for(let res of bonuses) {
+                if(res.amount > 0) {
+                    const i = bonusesTotal.findIndex(item => item.resourceCode === res.resourceCode);
+                    if(i > -1) {
+                        bonusesTotal[i].amount *= res.amount;
                     }
                 }
             }
@@ -105,7 +165,7 @@ class ProductionIntervalsService {
             capacity: income.map(inc => ({
                 ...inc,
                 amount: caps.find(p => p.resourceCode === inc.resourceCode).amount
-                    * bonuses.find(p => p.resourceCode === inc.resourceCode).amount
+                    * bonusesTotal.find(p => p.resourceCode === inc.resourceCode).amount
             })),
         }
 

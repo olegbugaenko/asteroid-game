@@ -87,6 +87,48 @@ class ColonyController {
     }
 
 
+    static async upgradeResearch(req, res) {
+        try {
+            const updatedStatus = await QueueService.sheduleResearchUpgrade({
+                colonyCode: req.user.colonyCode,
+                researchCode: req.params.researchCode,
+                level: 1,
+            });
+            res.send(updatedStatus)
+        } catch (e) {
+            console.error(e);
+            res.status(400);
+            return res.send(e && e.message);
+        }
+    }
+
+    static async listResearches(req, res) {
+        try {
+            const researches = await ColonyStatusService.listResearchesAvailable({
+                colonyCode: req.user.colonyCode,
+            });
+            res.send(researches);
+        } catch (e) {
+            console.error(e);
+            res.status(400);
+            return res.send(e && e.message);
+        }
+    }
+
+    static async listResearchesQueue(req, res) {
+        try {
+            const researches = await ColonyStatusService.listResearchesQueue({
+                colonyCode: req.user.colonyCode,
+            });
+            res.send(researches);
+        } catch (e) {
+            console.error(e);
+            res.status(400);
+            return res.send(e && e.message);
+        }
+    }
+
+
 }
 
 module.exports.ColonyController = ColonyController;

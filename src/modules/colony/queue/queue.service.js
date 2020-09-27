@@ -1,5 +1,9 @@
 const db = require("@database");
-const { CalculationBuildingService, CalculationResourceService } = require('@helpers/calculation');
+const {
+    CalculationBuildingService,
+    CalculationResourceService,
+    CalculationResearchesService
+} = require('@helpers/calculation');
 
 class QueueService {
 
@@ -68,6 +72,25 @@ class QueueService {
                 prod = potStatus.production.find(item => item.resourceCode === 'building').amount;
                 cost = costItems.base.find(item => item.resourceCode === 'building').amount;
                 // console.log('C: ', cost, prod, costItems.base);
+            } else
+            if(queueItem.order.scope === 'research') {
+                const currentLevelId = potStatus.researches
+                    .findIndex(item => item.researchCode === queueItem.order.code);
+                if(currentLevelId > -1) {
+                    potStatus.researches[currentLevelId].level += queueItem.order.level;
+                } else {
+                    potStatus.researches.push({
+                        researchCode: queueItem.order.code,
+                        level: queueItem.order.level,
+                        effiency: 1,
+                    });
+                }
+                const costItems = await CalculationResearchesService
+                    .getCost(queueItem.order.code, (potStatus.researches
+                        .find(item => item.researchCode === queueItem.order.code) || {level: 0}).level);
+                prod = potStatus.production.find(item => item.resourceCode === 'research').amount;
+                cost = costItems.base.find(item => item.resourceCode === 'research').amount;
+                // console.log('C: ', cost, prod, costItems.base);
             }
             queueItem.startTime = startTime;
             if(!cost) {
@@ -95,6 +118,20 @@ class QueueService {
             order: {
                 scope: 'building',
                 code: buildingCode,
+                level: level,
+            },
+            status: 'scheduled'
+        })
+    }
+
+    static async sheduleResearchUpgrade({colonyCode, researchCode, level}) {
+        return QueueService._createQueueItem({
+            isFinished: false,
+            scheduledTime: new Date,
+            colonyCode,
+            order: {
+                scope: 'research',
+                code: researchCode,
                 level: level,
             },
             status: 'scheduled'

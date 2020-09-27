@@ -2,7 +2,11 @@ const { uuid } = require('uuidv4');
 const { ProductionIntervalsService } = require('./intervals-process/production-intervals.service');
 const { QueueService } = require('./queue/queue.service');
 const { QuestsService } = require('./../quests/quests.service');
-const { CalculationBuildingService, CalculationResourcesService } = require('@helpers/calculation');
+const {
+    CalculationBuildingService,
+    CalculationResourcesService,
+    CalculationResearchesService
+} = require('@helpers/calculation');
 const db = require("@database");
 
 class ColonyStatusService {
@@ -103,6 +107,21 @@ class ColonyStatusService {
                         continue;
                     }
                 }
+                if(currentItem.order.scope === 'research') {
+                    resRequired = await CalculationResearchesService.getCost(currentItem.order.code, currentItem.order.level + (statusNew.status.researches
+                        .find(item => item.researchCode === currentItem.order.code) || {level: 0}).level);
+                    resReserved = await CalculationResearchesService.getReservedDelta(currentItem.order.code, (statusNew.status.researches
+                        .find(item => item.researchCode === currentItem.order.code) || {level: 0}).level, 1);
+                    console.log('resReserved', resReserved, currentItem.order.level + (statusNew.status.researches
+                        .find(item => item.researchCode === currentItem.order.code) || {level: 0}).level);
+                    if(!CalculationResearchesService.isResearchAvailable(currentItem.order.code, currentItem.order.level + (statusNew.status.researches
+                        .find(item => item.researchCode === currentItem.order.code) || {level: 0}).level)) {
+                        console.log('nAvailTime: ',currentAssert);
+                        queueSortedItems[0].status = 'canceled';
+                        queueItemsUpdate.push(queueSortedItems.shift());
+                        continue;
+                    }
+                }
                 if(resRequired) {
 
                     const newAmount = await CalculationResourcesService.subtractResources(statusNew.status.resourcesAfter, resRequired.base);
@@ -143,6 +162,19 @@ class ColonyStatusService {
                                 buildingCode: queueSortedItems[0].order.code,
                                 level: queueSortedItems[0].order.level,
                                 effiency: 1,
+                            });
+                        }
+                    }
+                    if(queueSortedItems[0].order.scope === 'research') {
+                        const bInd = statusNew.status.researches
+                            .findIndex(research => research.researchCode === queueSortedItems[0].order.code);
+                        console.log('BUILT: ', bInd);
+                        if(bInd > -1) {
+                            statusNew.status.researches[bInd].level += queueSortedItems[0].order.level;
+                        } else {
+                            statusNew.status.researches.push({
+                                researchCode: queueSortedItems[0].order.code,
+                                level: queueSortedItems[0].order.level,
                             });
                         }
                     }
@@ -219,6 +251,25 @@ class ColonyStatusService {
         });
         const buildingsInQueue = await CalculationBuildingService.listInQueue(statusNew.status, queuedBuildings);
         return buildingsInQueue;
+    }
+
+    static async listResearchesAvailable({ colonyCode }) {
+        const {statusNew} = await ColonyStatusService.makeTick({ colonyCode, timeTick: new Date()});
+        const researchesList = statusNew.status.researches;
+        const researchesAvailable = await CalculationResearchesService.listWithPrices(statusNew.status);
+        return researchesAvailable;
+    }
+
+    static async listResearchesQueue({ colonyCode }) {
+        const {statusNew} = await ColonyStatusService.makeTick({ colonyCode, timeTick: new Date()});
+        const researchesList = statusNew.status.researches;
+        const queuedResearches = await QueueService.getQueueList({
+            colonyCode: colonyCode,
+            statuses: ['scheduled', 'inprogress'],
+            scope: 'research'
+        });
+        const researchesInQueue = await CalculationResearchesService.listInQueue(statusNew.status, queuedResearches);
+        return researchesInQueue;
     }
 
     static async createNewColony() {

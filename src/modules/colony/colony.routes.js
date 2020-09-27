@@ -7,4 +7,8 @@ module.exports = (app) => {
     app.post('/colony/buildings/:buildingCode/level', ColonyController.upgradeBuilding);
     app.get('/colony/buildings', ColonyController.listBuildings);
     app.get('/colony/queue/buildings', ColonyController.listBuildingsQueue);
+
+    app.post('/colony/researches/:researchCode/level', ColonyController.upgradeResearch);
+    app.get('/colony/researches', ColonyController.listResearches);
+    app.get('/colony/queue/researches', ColonyController.listResearchesQueue);
 }

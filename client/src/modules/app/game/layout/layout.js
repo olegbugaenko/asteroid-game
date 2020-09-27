@@ -8,6 +8,7 @@ import {
 import * as styles from './styles.css';
 import Header from "./header";
 import Buildings from "./../../buildings"
+import Researches from "./../../researches"
 import Quests from "../../quests";
 
 const Layout = ({getColonyStatus}) => {
@@ -40,7 +41,7 @@ const Layout = ({getColonyStatus}) => {
                                     <Buildings />
                                 </Route>
                                 <Route path="/researches">
-                                    <p>Researches</p>
+                                    <Researches />
                                 </Route>
                                 <Route path="/">
                                     <p>Main</p>

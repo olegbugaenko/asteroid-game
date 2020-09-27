@@ -1,0 +1,92 @@
+module.exports = [{
+    name: 'Math',
+    maxLevel: 1,
+    code: 'math',
+    cost: [{
+        resourceCode: 'research',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'crystal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'research',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.02,
+        C: 1,
+        D: 1,
+    }],
+    capacity: []
+},{
+    name: 'Physics',
+    maxLevel: 1,
+    code: 'physics',
+    cost: [{
+        resourceCode: 'research',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'crystal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'building',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.02,
+        C: 1,
+        D: 1,
+    }],
+    capacity: []
+},{
+    name: 'Geology',
+    maxLevel: 1,
+    code: 'geology',
+    cost: [{
+        resourceCode: 'research',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'crystal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'metal',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.05,
+        C: 1,
+        D: 1,
+    },{
+        resourceCode: 'crystal',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.05,
+        C: 1,
+        D: 1,
+    }],
+    capacity: []
+}]
