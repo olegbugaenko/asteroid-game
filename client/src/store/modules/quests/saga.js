@@ -20,7 +20,6 @@ class QuestsSaga {
         try {
             console.log('!!!-----');
             const { data } = yield call(QuestsService.claimReward);
-            console.log('pl', payload);
             yield put(Actions.updateQuestStatus({status: 4}));
             yield put(ColonyActions.getColonyStatus());
         } catch (e) {

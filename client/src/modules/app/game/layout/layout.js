@@ -52,6 +52,7 @@ const Layout = ({getColonyStatus}) => {
                     <Quests/>
                 </Router>
             </div>
+            <div className={'gameBackground'}></div>
         </div>
     );
 };

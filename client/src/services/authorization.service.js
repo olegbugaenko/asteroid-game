@@ -33,7 +33,7 @@ class AuthorizationService {
     }
 
     static signUp({email, password, firstName, lastName}) {
-        return axios.post(`${config.serverUrl}/users/sign-in`, {
+        return axios.post(`${config.serverUrl}/users/sign-up`, {
             data: {
                 email,
                 password,

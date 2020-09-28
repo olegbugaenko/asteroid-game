@@ -36,6 +36,7 @@ module.exports = (mongoose) => {
             ...require('./../data/buildings.solarplant'),
             ...require('./../data/buildings.warehouse'),
             ...require('./../data/buildings.tank'),
+            ...require('./../data/buildings.infrastructure'),
         ]
         for(let item of defaultData) {
             await Building.findOneAndUpdate({

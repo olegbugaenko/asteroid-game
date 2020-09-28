@@ -224,7 +224,7 @@ class ProductionIntervalsService {
             previousAmount: amount,
             dT: intervals[index].dT
         });
-        console.log('newAmountCalculated', newAmount);
+        // console.log('newAmountCalculated', newAmount);
         let minResource = null;
         for(let resource of newAmount) {
             const fndInc = increment.income.find(inc => inc.resourceCode === resource.resourceCode);

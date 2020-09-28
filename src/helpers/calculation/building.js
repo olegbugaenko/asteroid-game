@@ -187,7 +187,18 @@ class CalculationBuildingService {
                     if(!currentLevel) {
                         return false;
                     }
-                    if(currentLevel.level < requirement.scope.level) {
+                    if(currentLevel.level < requirement.level) {
+                        return false;
+                    }
+                }
+                if(requirement.scope === 'research') {
+                    const currentLevel = status.researches
+                        .find(item => item.researchCode === requirement.code);
+                    console.log('RRREQ: ', requirement, currentLevel, status.researches);
+                    if(!currentLevel) {
+                        return false;
+                    }
+                    if(currentLevel.level < requirement.level) {
                         return false;
                     }
                 }

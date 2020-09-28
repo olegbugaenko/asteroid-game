@@ -38,7 +38,7 @@ class QueueService {
 
     static async sortQueueItems({queueItems, status, time}) {
         const potentialTimeStarts = {};
-        console.log('status: ', status);
+        console.log('sortingItems: ', queueItems);
         const potStatus = JSON.parse(JSON.stringify(status));
         for(let queueItem of queueItems) {
             let startTime = time || queueItem.scheduledTime;

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import classNames from 'classnames';
 import * as styles from './styles.css';
 import SignIn from './../auth/sign-in';
+import SignUp from './../auth/sign-up';
 
 const MainPage = ({authorize, signup}) => {
 

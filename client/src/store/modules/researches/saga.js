@@ -31,7 +31,7 @@ class ResearchesSaga {
     static *postResearch({payload}) {
         try {
             console.log('payload', payload);
-            const { data } = yield call(ResearchesService.build, payload);
+            const { data } = yield call(ResearchesService.research, payload);
             yield put(Actions.postResearchToQueue.success(data));
             yield put(Actions.getResearchQueue());
         } catch (e) {
@@ -41,7 +41,7 @@ class ResearchesSaga {
     }
 
     static *watch(){
-        yield takeLatest(Actions.getResearchesList.type, ResearchesSaga.listBuildings);
+        yield takeLatest(Actions.getResearchesList.type, ResearchesSaga.listResearches);
         yield takeLatest(Actions.postResearchToQueue.type, ResearchesSaga.postResearch);
         yield takeLatest(Actions.getResearchQueue.type, ResearchesSaga.listResearchQueue);
     }

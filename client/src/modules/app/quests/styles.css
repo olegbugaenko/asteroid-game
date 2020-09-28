@@ -5,3 +5,7 @@
     color: white;
     cursor: pointer;
 }
+
+.paper.quests {
+    background: rgba(0,0,0,0.8);
+}

@@ -1,19 +1,27 @@
 const db = require("@database");
 const { QuestsRegistry } = require('./../../database/registry/quests');
 const { BuildingsRegistry } = require('./../../database/registry/buildings');
+const { ResearchesRegistry } = require('./../../database/registry/research');
 
 class QuestsService {
 
     static async listQuestsWithData() {
         const list = await QuestsRegistry.questsList();
         const buildings = await BuildingsRegistry.buildingsList();
+        const researches = await ResearchesRegistry.researchesList();
         const listWithData = list.map(quest => {
             if(quest.requirements) {
                 for(let i=0; i<quest.requirements.length;i++) {
                     const req = quest.requirements[i];
-                    console.log('R: ', req);
+                    // console.log('R: ', req);
                     if(req.scope === 'building') {
                         const data = buildings.find(b => b.code === req.code);
+                        if(data) {
+                            quest.requirements[i].name = data.name;
+                        }
+                    }
+                    if(req.scope === 'research') {
+                        const data = researches.find(b => b.code === req.code);
                         if(data) {
                             quest.requirements[i].name = data.name;
                         }
@@ -48,6 +56,7 @@ class QuestsService {
         if(statuses[index].status < 2) {
             if(QuestsService.statusRequirementsMet(status, statuses[index], list.find(item => item.code === statuses[index].questCode))) {
                 statuses[index].status = 2;
+                statuses[index].isHidden = false;
             }
         }
         let bounty = [];
@@ -66,12 +75,22 @@ class QuestsService {
         };
     }
 
-    static async statusRequirementsMet(status, questStatus, quest) {
+    static statusRequirementsMet(status, questStatus, quest) {
         const reqs = quest.requirements;
+        console.log('quest: ', questStatus, quest, status.buildings);
         let isDone = true;
         for(let req of reqs) {
             if(req.scope === 'building') {
                 const currentLevel = status.buildings.find(item => item.buildingCode === req.code);
+                if(!currentLevel) {
+                    return false;
+                }
+                if(currentLevel.level < req.level) {
+                    return false;
+                }
+            }
+            if(req.scope === 'research') {
+                const currentLevel = status.researches.find(item => item.researchCode === req.code);
                 if(!currentLevel) {
                     return false;
                 }

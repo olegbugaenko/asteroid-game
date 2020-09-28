@@ -4,7 +4,8 @@ class UsersController {
 
     static async signUp(req, res) {
         try {
-            const result = await UsersService.register(req.body);
+            console.log('req.body', req.body);
+            const result = await UsersService.register(req.body && req.body.data);
             res.send(result);
         } catch (e) {
             console.error(e);

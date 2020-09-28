@@ -37,11 +37,11 @@ const Researches = ({researches, queue, getResearchesList, getResearchQueue, pos
                 </div>
                 <div className={classNames('column', 'descr')}>
                     <p>Here will be some description</p>
-                    {research.isUpgradeAvailable && (<button onClick={() => postToResearch(research.code)}>Research</button>)}
+                    {research.isUpgradeAvailable && (<button className={'success-btn'} onClick={() => postToResearch(research.code)}>Research</button>)}
                 </div>
                 <div className={classNames('column', 'costs')}>
                     <p className={'title'}>Costs</p>
-                    {research.cost && building.cost.filter(c => c.amount > 0 && c.isPrimary)
+                    {research.cost && research.cost.filter(c => c.amount > 0 && c.isPrimary)
                         .map(c => (<p className={'resourceCost'}><SvgLoader scope={'resources'} icon={c.resourceCode} className={'icon-resource'}/> {Math.round(c.amount)}</p> ))}
                     {research.reserved && research.reserved.filter(c => Math.round(c.amount) !== 0 && c.isPrimary)
                         .map(c => (<p className={'resourceCost'}><SvgLoader scope={'resources'} icon={c.resourceCode} className={'icon-resource'}/> {Math.round(c.amount)}</p> ))}
@@ -53,7 +53,7 @@ const Researches = ({researches, queue, getResearchesList, getResearchQueue, pos
                 </div>
                 <div className={classNames('column', 'costs')}>
                     <p className={'title'}>Production</p>
-                    {research.production && research.production.filter(c => Math.round(c.amount) !== 0 && c.isPrimary)
+                    {research.production && research.production.filter(c => Math.round(c.amount * 100) !== 100)
                         .map(c => (<p className={'resourceCost'}><SvgLoader scope={'resources'} icon={c.resourceCode} className={'icon-resource'}/> {Math.round(c.amount * 100)}%</p> ))}
                 </div>
             </div> ))}

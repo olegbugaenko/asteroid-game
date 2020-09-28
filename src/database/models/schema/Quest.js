@@ -19,6 +19,7 @@ module.exports = (mongoose) => {
         const defaultData = [
             ...require('./../data/quests.intro'),
             ...require('./../data/quests.survival'),
+            ...require('./../data/quests.middle'),
         ]
         for(let item of defaultData) {
             await Quest.findOneAndUpdate({

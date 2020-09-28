@@ -74,9 +74,10 @@ class ColonyStatusService {
         const queueItemsUpdate = [];
         let queueSortedItems = [...queuedActions];
         console.log('Q: ', queueSortedItems, currentAssert);
+        let queueItemIndex = 0;
         while(currentAssert < new Date(timeTick)) {
-            console.log('Q2: ', queueSortedItems, currentAssert);
-            if(queueSortedItems.length <= 0) {
+            console.log('Q2: ', queueSortedItems, currentAssert, queueItemIndex);
+            if(queueSortedItems.length <= queueItemIndex) {
                 statusNew = await ColonyStatusService.getCalculatedStatus({ colony: statusNew, time: new Date(timeTick) });
                 currentAssert.setTime((new Date(timeTick)).getTime());
                 continue;
@@ -89,7 +90,7 @@ class ColonyStatusService {
             // if item scheduled - calculate time and resources needed, make in-progress if first in queue
             // if item in progress - check if finished. if yes - increment status
             const [ currentItem ] = queueSortedItems;
-            if(queueSortedItems[0].status === 'scheduled' && queueSortedItems[0].startTime <= currentAssert) {
+            if(queueSortedItems[queueItemIndex].status === 'scheduled' && queueSortedItems[queueItemIndex].startTime <= currentAssert) {
                 let resRequired;
                 let resReserved;
                 if(currentItem.order.scope === 'building') {
@@ -102,8 +103,8 @@ class ColonyStatusService {
                     if(!CalculationBuildingService.isBuildingAvailable(currentItem.order.code, currentItem.order.level + (statusNew.status.buildings
                         .find(item => item.buildingCode === currentItem.order.code) || {level: 0}).level)) {
                         console.log('nAvailTime: ',currentAssert);
-                        queueSortedItems[0].status = 'canceled';
-                        queueItemsUpdate.push(queueSortedItems.shift());
+                        queueSortedItems[queueItemIndex].status = 'canceled';
+                        queueItemsUpdate.push(...queueSortedItems.splice(queueItemIndex, 1));
                         continue;
                     }
                 }
@@ -117,8 +118,8 @@ class ColonyStatusService {
                     if(!CalculationResearchesService.isResearchAvailable(currentItem.order.code, currentItem.order.level + (statusNew.status.researches
                         .find(item => item.researchCode === currentItem.order.code) || {level: 0}).level)) {
                         console.log('nAvailTime: ',currentAssert);
-                        queueSortedItems[0].status = 'canceled';
-                        queueItemsUpdate.push(queueSortedItems.shift());
+                        queueSortedItems[queueItemIndex].status = 'canceled';
+                        queueItemsUpdate.push(...queueSortedItems.splice(queueItemIndex, 1));
                         continue;
                     }
                 }
@@ -133,58 +134,59 @@ class ColonyStatusService {
                     const isEnought = await CalculationResourcesService.isEnought(afterReserve);
                     if(!isEnought) {
                         console.log('nETime: ',currentAssert);
-                        queueSortedItems[0].status = 'canceled';
-                        queueItemsUpdate.push(queueSortedItems.shift());
+                        queueSortedItems[queueItemIndex].status = 'canceled';
+                        queueItemsUpdate.push(...queueSortedItems.splice(queueItemIndex, 1));
                         continue;
                     }
                     statusNew.status.resources = newAmount;
                     console.log('newAmount: ', newAmount)
                 }
-                queueSortedItems[0].status = 'inprogress';
-                queueItemsUpdate.push(queueSortedItems[0]);
+                queueSortedItems[queueItemIndex].status = 'inprogress';
+                queueItemsUpdate.push(queueSortedItems[queueItemIndex]);
                 //get if enough resources
             }
-            if(queueSortedItems[0].status === 'inprogress') {
+            if(queueSortedItems[queueItemIndex].status === 'inprogress') {
                 const newTime = new Date(currentAssert);
-                newTime.setTime((new Date(queueSortedItems[0].startTime)).getTime() + queueSortedItems[0].dT);
+                newTime.setTime((new Date(queueSortedItems[queueItemIndex].startTime)).getTime() + queueSortedItems[queueItemIndex].dT);
                 console.log('newTime: ', newTime);
                 if(newTime <= currentAssert) {
-                    queueSortedItems[0].status = 'done';
+                    queueSortedItems[queueItemIndex].status = 'done';
                     //get bonuses, and update base
-                    if(queueSortedItems[0].order.scope === 'building') {
+                    if(queueSortedItems[queueItemIndex].order.scope === 'building') {
                        const bInd = statusNew.status.buildings
-                           .findIndex(building => building.buildingCode === queueSortedItems[0].order.code);
+                           .findIndex(building => building.buildingCode === queueSortedItems[queueItemIndex].order.code);
                        console.log('BUILT: ', bInd);
                         if(bInd > -1) {
-                            statusNew.status.buildings[bInd].level += queueSortedItems[0].order.level;
+                            statusNew.status.buildings[bInd].level += queueSortedItems[queueItemIndex].order.level;
                         } else {
                             statusNew.status.buildings.push({
-                                buildingCode: queueSortedItems[0].order.code,
-                                level: queueSortedItems[0].order.level,
+                                buildingCode: queueSortedItems[queueItemIndex].order.code,
+                                level: queueSortedItems[queueItemIndex].order.level,
                                 effiency: 1,
                             });
                         }
                     }
-                    if(queueSortedItems[0].order.scope === 'research') {
+                    if(queueSortedItems[queueItemIndex].order.scope === 'research') {
                         const bInd = statusNew.status.researches
-                            .findIndex(research => research.researchCode === queueSortedItems[0].order.code);
+                            .findIndex(research => research.researchCode === queueSortedItems[queueItemIndex].order.code);
                         console.log('BUILT: ', bInd);
                         if(bInd > -1) {
-                            statusNew.status.researches[bInd].level += queueSortedItems[0].order.level;
+                            statusNew.status.researches[bInd].level += queueSortedItems[queueItemIndex].order.level;
                         } else {
                             statusNew.status.researches.push({
-                                researchCode: queueSortedItems[0].order.code,
-                                level: queueSortedItems[0].order.level,
+                                researchCode: queueSortedItems[queueItemIndex].order.code,
+                                level: queueSortedItems[queueItemIndex].order.level,
                             });
                         }
                     }
                     statusNew.status.buildings = statusNew.status.buildings.map(building => ({...building, effiency: 1}));
-                    queueItemsUpdate.push(queueSortedItems.shift());
+                    queueItemsUpdate.push(...queueSortedItems.splice(queueItemIndex, 1));
                 }
                 else {
-                    if(queueSortedItems.length > 1) {
-                        currentAssert.setTime((new Date(queueSortedItems[1].startTime)).getTime());
-                        console.log('NextStart: ', currentAssert, queueSortedItems[1].startTime);
+                    if(queueSortedItems.length > queueItemIndex + 1) {
+                        currentAssert.setTime((new Date(queueSortedItems[queueItemIndex + 1].startTime)).getTime());
+                        console.log('NextStart: ', currentAssert, queueSortedItems[queueItemIndex + 1].startTime);
+                        queueItemIndex++;
                     } else {
                         currentAssert.setTime(newTime.getTime());
                         console.log('newTime: ', currentAssert, newTime);
@@ -193,10 +195,10 @@ class ColonyStatusService {
                 }
 
             }
-            if(queueSortedItems.length > 0) {
-                currentAssert.setTime((new Date(queueSortedItems[0].startTime)).getTime());
+            if(queueSortedItems.length > queueItemIndex) {
+                currentAssert.setTime((new Date(queueSortedItems[queueItemIndex].startTime)).getTime());
             }
-            console.log('ITER: ', currentAssert, queueSortedItems);
+            console.log('ITER: ', currentAssert, queueSortedItems, queueItemIndex);
         }
         console.log('ATFINISH: ',statusNew.status.resources, statusNew.status.resourcesAfter);
         // statusNew.status.resources = {...statusNew.status.resourcesAfter};

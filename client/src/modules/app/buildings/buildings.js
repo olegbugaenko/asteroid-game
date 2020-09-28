@@ -37,7 +37,7 @@ const Buildings = ({buildings, queue, getBuildingsList, getBuildingQueue, postTo
                 </div>
                 <div className={classNames('column', 'descr')}>
                     <p>Here will be some description</p>
-                    {building.isUpgradeAvailable && (<button onClick={() => postToBuild(building.code)}>Build</button>)}
+                    {building.isUpgradeAvailable && (<button className={'success-btn'} onClick={() => postToBuild(building.code)}>Build</button>)}
                 </div>
                 <div className={classNames('column', 'costs')}>
                     <p className={'title'}>Costs</p>

@@ -177,6 +177,17 @@ class CalculationResearchesService {
                         return false;
                     }
                 }
+                if(requirement.scope === 'research') {
+                    const currentLevel = status.researches
+                        .find(item => item.researchCode === requirement.code);
+                    console.log('RRREQ: ', requirement, currentLevel, status.researches);
+                    if(!currentLevel) {
+                        return false;
+                    }
+                    if(currentLevel.level < requirement.scope.level) {
+                        return false;
+                    }
+                }
             }
         }
         return true;

@@ -1,19 +1,19 @@
 module.exports = [{
     name: 'Math',
-    maxLevel: 1,
+    maxLevel: 100000,
     code: 'math',
     cost: [{
         resourceCode: 'research',
         formulaId: 1,
         isPercentage: false,
-        A: 125,
+        A: 125000,
         D: 1.8,
         C: 0.3,
     },{
         resourceCode: 'crystal',
         formulaId: 1,
         isPercentage: false,
-        A: 125,
+        A: 55,
         D: 1.8,
         C: 0.3,
     }],
@@ -28,20 +28,20 @@ module.exports = [{
     capacity: []
 },{
     name: 'Physics',
-    maxLevel: 1,
+    maxLevel: 1000000,
     code: 'physics',
     cost: [{
         resourceCode: 'research',
         formulaId: 1,
         isPercentage: false,
-        A: 125,
+        A: 125000,
         D: 1.8,
         C: 0.3,
     },{
         resourceCode: 'crystal',
         formulaId: 1,
         isPercentage: false,
-        A: 125,
+        A: 55,
         D: 1.8,
         C: 0.3,
     }],
@@ -56,13 +56,13 @@ module.exports = [{
     capacity: []
 },{
     name: 'Geology',
-    maxLevel: 1,
+    maxLevel: 100000,
     code: 'geology',
     cost: [{
         resourceCode: 'research',
         formulaId: 1,
         isPercentage: false,
-        A: 125,
+        A: 125000,
         D: 1.8,
         C: 0.3,
     },{
@@ -70,6 +70,13 @@ module.exports = [{
         formulaId: 1,
         isPercentage: false,
         A: 125,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'metal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 225,
         D: 1.8,
         C: 0.3,
     }],
@@ -87,6 +94,135 @@ module.exports = [{
         A: 0.05,
         C: 1,
         D: 1,
+    }],
+    requirements: [{
+        scope: 'building',
+        code: 'metalmine',
+        level: 3
+    },{
+        scope: 'research',
+        code: 'physics',
+        level: 2,
+    }],
+    capacity: []
+},{
+    name: 'Energetics',
+    maxLevel: 100000,
+    code: 'energetics',
+    cost: [{
+        resourceCode: 'research',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125000,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'metal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 75,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'crystal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 75,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'fuel',
+        formulaId: 1,
+        isPercentage: false,
+        A: 15,
+        D: 1.8,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'electricity',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.05,
+        C: 1,
+        D: 1,
+    }],
+    requirements: [{
+        scope: 'building',
+        code: 'solarplant',
+        level: 3
+    },{
+        scope: 'research',
+        code: 'physics',
+        level: 2,
+    }],
+    capacity: []
+},{
+    name: 'Chemistry',
+    maxLevel: 100000,
+    code: 'chemistry',
+    cost: [{
+        resourceCode: 'research',
+        formulaId: 1,
+        isPercentage: false,
+        A: 175000,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'crystal',
+        formulaId: 1,
+        isPercentage: false,
+        A: 75,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    },{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: false,
+        A: 125,
+        D: 1.8,
+        C: 0.3,
+    }],
+    production: [{
+        resourceCode: 'water',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.05,
+        C: 1,
+        D: 1,
+    },{
+        resourceCode: 'oxygen',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.05,
+        C: 1,
+        D: 1,
+    },{
+        resourceCode: 'fuel',
+        formulaId: 1,
+        isPercentage: true,
+        A: 0.05,
+        C: 1,
+        D: 1,
+    }],
+    requirements: [{
+        scope: 'building',
+        code: 'metalmine',
+        level: 3
+    },{
+        scope: 'research',
+        code: 'physics',
+        level: 2,
+    },{
+        scope: 'research',
+        code: 'math',
+        level: 1,
     }],
     capacity: []
 }]
